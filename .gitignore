@@ -1,0 +1,29 @@
+# Ignore everything.
+**
+
+# # But include these files...
+!.dockerignore
+!.gitignore
+!Dockerfile-prod
+# ... and these files under the 'gateway' directory...
+!Redis.OM.Skeleton/
+Redis.OM.Skeleton/*
+!Redis.OM.Skeleton/appsettings.Development.json
+!Redis.OM.Skeleton/appsettings.json
+!Redis.OM.Skeleton/Program.cs
+!Redis.OM.Skeleton/Redis.OM.Skeleton.csproj
+!Redis.OM.Skeleton/WeatherForecast.cs
+!Redis.OM.Skeleton/Controllers/
+Redis.OM.Skeleton/Controllers/*
+!Redis.OM.Skeleton/Controllers/PeopleController.cs
+!Redis.OM.Skeleton/Controllers/WeatherForecastController.cs
+!Redis.OM.Skeleton/HostedServices/
+Redis.OM.Skeleton/HostedServices/*
+!Redis.OM.Skeleton/HostedServices/IndexCreationService.cs
+!Redis.OM.Skeleton/Model/
+Redis.OM.Skeleton/Model/*
+!Redis.OM.Skeleton/Model/Address.cs
+!Redis.OM.Skeleton/Model/Person.cs
+!Redis.OM.Skeleton/Properties/
+Redis.OM.Skeleton/Properties/*
+!Redis.OM.Skeleton/Properties/launchSettings.json
