@@ -1,0 +1,42 @@
+# Alpine images provide the Almquist shell (ash) from BusyBox.
+# $ docker images
+# $ docker rmi <image-id>
+#
+# Official images for the .NET SDK: https://hub.docker.com/_/microsoft-dotnet-sdk/
+# If using a Windows machine, download the Linux image from the Windows Subsystem for Linux (WSL).
+# Use the command below to download an image:
+#  PS> docker pull mcr.microsoft.com/dotnet/sdk:7.0-alpine3.17
+#
+FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine-amd64 AS Builder
+
+WORKDIR /redis
+
+COPY ./Redis.OM.Skeleton/ ./
+
+RUN dotnet restore "./Redis.OM.Skeleton.csproj" && \
+    dotnet build "./Redis.OM.Skeleton.csproj" -c Release -o /app --no-restore && \
+    # For more information about the .NET RID Catalog, see
+    # https://learn.microsoft.com/en-us/dotnet/core/rid-catalog
+    dotnet publish "./Redis.OM.Skeleton.csproj" -c Release -o /app --no-restore --runtime rhel-x64 && \
+    rm /app/*.pdb
+
+# Official images for the .NET runtime: https://hub.docker.com/_/microsoft-dotnet-runtime/
+# If using OpenShift, use the .NET Runtime image from RedHat at
+# https://catalog.redhat.com/software/containers/rhel8/dotnet-70-runtime/633c2b337a32f2ea2eb51dec
+# To pull the image from RedHat, see
+# https://access.redhat.com/RegistryAuthentication#red-hat-registries-1
+#
+# Final image.
+FROM registry.redhat.io/rhel8/dotnet-70-runtime:7.0-12
+
+WORKDIR /app
+
+COPY --from=Builder /app ./
+
+USER 1001:1001
+
+EXPOSE 8080
+
+# CMD ["sh", "-c", "tail -f /dev/null"]
+# kubectl exec -it <pod-id> -n <namespace> -- sh
+ENTRYPOINT ["./Redis.OM.Skeleton"]
