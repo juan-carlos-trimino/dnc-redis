@@ -5,6 +5,7 @@
 !.dockerignore
 !.gitignore
 !Dockerfile-prod
+!README.md
 # ... and these files under the 'gateway' directory...
 !Redis.OM.Skeleton/
 Redis.OM.Skeleton/*
